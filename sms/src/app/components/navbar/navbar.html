@@ -1,0 +1,86 @@
+<div
+  class="edge-trigger"
+  role="button"
+  tabindex="0"
+  aria-label="Reveal navigation by moving the pointer here"
+  (mouseenter)="open()"
+  (focus)="open()"
+></div>
+
+<button
+  class="backdrop"
+  [class.visible]="isOpen"
+  type="button"
+  aria-label="Close navigation"
+  tabindex="-1"
+  (click)="close()"
+></button>
+
+<aside
+  id="student-navigation"
+  class="sidebar"
+  [class.open]="isOpen"
+  aria-label="Student management navigation"
+  (mouseleave)="close()"
+>
+  <a class="brand" routerLink="/dashboard" (click)="close()">
+    <span class="brand-mark">C</span>
+    <span class="brand-name">Campus<span>Care</span></span>
+  </a>
+  <div class="nav-caption">WORKSPACE</div>
+  <nav class="main-nav" aria-label="Main navigation">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="close()"
+      ><span class="nav-icon">⌂</span><span>Dashboard</span></a
+    >
+    <a
+      routerLink="/students"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="close()"
+      ><span class="nav-icon">♙</span><span>Students</span></a
+    >
+    <a
+      routerLink="/attendance"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="close()"
+      ><span class="nav-icon">✓</span><span>Attendance</span></a
+    >
+    <a
+      routerLink="/courses"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="close()"
+      ><span class="nav-icon">▤</span><span>Courses</span></a
+    >
+    <a
+      routerLink="/classes"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="close()"
+      ><span class="nav-icon">▦</span><span>Classes</span></a
+    >
+    <a routerLink="/exams" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="close()"
+      ><span class="nav-icon">✎</span><span>Exams &amp; grades</span></a
+    >
+    <a routerLink="/fees" routerLinkActive="active" ariaCurrentWhenActive="page" (click)="close()"
+      ><span class="nav-icon">＄</span><span>Fees</span></a
+    >
+    <a
+      routerLink="/reports"
+      routerLinkActive="active"
+      ariaCurrentWhenActive="page"
+      (click)="close()"
+      ><span class="nav-icon">▥</span><span>Reports</span></a
+    >
+  </nav>
+  <div class="sidebar-footer">
+    <span class="avatar">AD</span>
+    <span class="profile-copy"><strong>Admin</strong><small>Administrator</small></span>
+    <button type="button" aria-label="Open account menu">···</button>
+  </div>
+</aside>

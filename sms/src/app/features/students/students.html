@@ -1,0 +1,139 @@
+<section class="students-page" aria-labelledby="page-title">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">STUDENT DIRECTORY</p>
+      <h1 id="page-title">Students</h1>
+      <p class="page-description">View student profiles and enrollment information.</p>
+    </div>
+    <div class="header-actions">
+      <span class="student-count"
+        >{{ filteredStudents.length }} of {{ students.length }} students</span
+      >
+      <button class="add-student-button" type="button" (click)="isAddFormOpen = true">
+        <span aria-hidden="true">+</span> Add student
+      </button>
+    </div>
+  </header>
+
+  @if (isAddFormOpen) {
+    <app-add-student
+      (studentAdded)="addStudent($event)"
+      (cancelled)="isAddFormOpen = false"
+    ></app-add-student>
+  }
+
+  <section class="list-toolbar" aria-label="Filter and sort students">
+    <label class="search-control">
+      <span aria-hidden="true">⌕</span>
+      <input
+        type="search"
+        placeholder="Search name, ID, email or guardian"
+        [value]="searchTerm"
+        (input)="setSearch($event)"
+        aria-label="Search students"
+      />
+    </label>
+    <label class="filter-control"
+      >Status
+      <select [value]="statusFilter" (change)="statusFilter = $any($event.target).value">
+        <option value="All">All statuses</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+    </label>
+    <label class="filter-control"
+      >Grade
+      <select [value]="gradeFilter" (change)="gradeFilter = $any($event.target).value">
+        <option value="All">All grades</option>
+        @for (grade of grades; track grade) {
+          <option [value]="grade">Grade {{ grade }}</option>
+        }
+      </select>
+    </label>
+    <label class="filter-control"
+      >Sort by
+      <select [value]="sortBy" (change)="sortBy = $any($event.target).value">
+        <option value="name">Name</option>
+        <option value="studentId">Student ID</option>
+        <option value="grade">Grade</option>
+        <option value="enrollmentDate">Enrollment date</option>
+      </select>
+    </label>
+    <button
+      class="sort-direction"
+      type="button"
+      (click)="toggleSortDirection()"
+      [attr.aria-label]="sortAscending ? 'Sort ascending' : 'Sort descending'"
+      [title]="sortAscending ? 'Ascending' : 'Descending'"
+    >
+      {{ sortAscending ? '↑' : '↓' }}
+    </button>
+  </section>
+
+  <div class="student-list" role="list" aria-label="Student list">
+    @for (student of filteredStudents; track student.id) {
+      <article class="student-card" role="listitem">
+        <div class="student-identity">
+          <span class="student-avatar" aria-hidden="true"
+            >{{ student.firstName[0] }}{{ student.lastName[0] }}</span
+          >
+          <div class="identity-copy">
+            <h2>{{ student.firstName }} {{ student.lastName }}</h2>
+            <span class="student-number">{{ student.studentId }}</span>
+          </div>
+        </div>
+
+        <div class="student-field class-field">
+          <span class="field-label">Grade / class</span>
+          <span class="field-value"
+            >Grade {{ student.grade }} <span class="class-tag">{{ student.className }}</span></span
+          >
+        </div>
+
+        <div class="student-field contact-field">
+          <span class="field-label">Contact</span>
+          <a class="field-value" href="mailto:{{ student.email }}">{{ student.email }}</a>
+          <a class="field-secondary" href="tel:{{ student.phone }}">{{ student.phone }}</a>
+        </div>
+
+        <div class="student-field guardian-field">
+          <span class="field-label">Guardian</span>
+          <span class="field-value">{{ student.guardianName }}</span>
+          <a class="field-secondary" href="tel:{{ student.guardianPhone }}">{{
+            student.guardianPhone
+          }}</a>
+        </div>
+
+        <span class="status" [class.inactive]="student.status === 'Inactive'">{{
+          student.status
+        }}</span>
+
+        <details class="more-details">
+          <summary>Details</summary>
+          <dl>
+            <div>
+              <dt>Date of birth</dt>
+              <dd>{{ student.dateOfBirth }}</dd>
+            </div>
+            <div>
+              <dt>Gender</dt>
+              <dd>{{ student.gender }}</dd>
+            </div>
+            <div>
+              <dt>Enrolled</dt>
+              <dd>{{ student.enrollmentDate }}</dd>
+            </div>
+            <div>
+              <dt>Address</dt>
+              <dd>{{ student.address }}</dd>
+            </div>
+          </dl>
+        </details>
+      </article>
+    } @empty {
+      <p class="empty-state">
+        No students match your search and filters. Try changing or clearing them.
+      </p>
+    }
+  </div>
+</section>

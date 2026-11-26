@@ -1,0 +1,135 @@
+<section class="dashboard-page" aria-labelledby="dashboard-title">
+  <header class="dashboard-header">
+    <div>
+      <p class="eyebrow">CAMPUS OVERVIEW</p>
+      <h1 id="dashboard-title">hello , Admin</h1>
+      <p class="subtitle">Here’s what’s happening at your school.</p>
+    </div>
+    <a class="primary-action" routerLink="/students"
+      >View students <span aria-hidden="true">→</span></a
+    >
+  </header>
+
+  <section class="summary-grid" aria-label="School summary">
+    @for (card of summaryCards; track card.label) {
+      <article class="summary-card">
+        <div class="card-topline">
+          <span>{{ card.label }}</span><span
+            class="metric-icon"
+            [class]="'metric-icon ' + card.color"
+            >{{ card.icon }}</span
+          >
+        </div>
+        <strong class="metric-value">{{ card.value }}</strong>
+        <span class="metric-detail">{{ card.detail }}</span>
+      </article>
+    }
+  </section>
+
+  <div class="dashboard-grid">
+    <section class="panel grade-panel" aria-labelledby="grade-title">
+      <div class="panel-heading">
+        <div>
+          <h2 id="grade-title">Students by grade</h2>
+          <p>Enrollment overview</p>
+        </div>
+        <span class="panel-icon">▥</span>
+      </div>
+      <div class="grade-list">
+        @for (item of gradeSummary; track item.grade) {
+          <div class="grade-row">
+            <div class="grade-label">
+              <span>{{ item.grade }}</span><span>{{ item.count }} students</span>
+            </div>
+            <div
+              class="progress-track"
+              role="progressbar"
+              [attr.aria-label]="item.grade + ' enrollment'"
+              [attr.aria-valuenow]="item.percentage"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <span [style.width.%]="item.percentage"></span>
+            </div>
+          </div>
+        }
+      </div>
+      <a class="text-link" routerLink="/students"
+        >Open student directory <span aria-hidden="true">→</span></a
+      >
+    </section>
+
+    <section class="panel quick-panel" aria-labelledby="quick-title">
+      <div class="panel-heading">
+        <div>
+          <h2 id="quick-title">Quick access</h2>
+          <p>Common tasks and sections</p>
+        </div>
+      </div>
+      <div class="quick-links">
+        <a routerLink="/students"
+          ><span class="quick-icon blue">♙</span
+          ><span><strong>Students</strong><small>View and manage student records</small></span
+          ><span class="arrow">→</span></a
+        >
+        <a routerLink="/attendance"
+          ><span class="quick-icon green">✓</span
+          ><span><strong>Attendance</strong><small>Review daily attendance</small></span
+          ><span class="arrow">→</span></a
+        >
+        <a routerLink="/classes"
+          ><span class="quick-icon purple">▦</span
+          ><span><strong>Classes</strong><small>Browse class groups</small></span
+          ><span class="arrow">→</span></a
+        >
+        <a routerLink="/reports"
+          ><span class="quick-icon orange">▥</span
+          ><span><strong>Reports</strong><small>Explore school reports</small></span
+          ><span class="arrow">→</span></a
+        >
+      </div>
+    </section>
+  </div>
+
+  <section class="panel recent-panel" aria-labelledby="recent-title">
+    <div class="panel-heading recent-heading">
+      <div>
+        <h2 id="recent-title">Student directory</h2>
+        <p>A few students from the sample records</p>
+      </div>
+      <a class="text-link" routerLink="/students"
+        >See all students <span aria-hidden="true">→</span></a
+      >
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Student</th>
+            <th scope="col">Student ID</th>
+            <th scope="col">Grade</th>
+            <th scope="col">Class</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (student of recentStudents; track student.studentId) {
+            <tr>
+              <td>
+                <span class="student-avatar">{{ student.name[0] }}</span>{{ student.name }}
+              </td>
+              <td>{{ student.studentId }}</td>
+              <td>{{ student.grade }}</td>
+              <td>{{ student.className }}</td>
+              <td>
+                <span class="status" [class.inactive]="student.status === 'Inactive'">{{
+                  student.status
+                }}</span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
